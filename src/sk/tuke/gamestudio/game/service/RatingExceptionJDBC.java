@@ -1,7 +1,6 @@
 package sk.tuke.gamestudio.game.service;
 
 import sk.tuke.gamestudio.game.entity.Rating;
-import sk.tuke.gamestudio.game.entity.Score;
 
 import java.sql.*;
 import java.sql.Date;
@@ -14,26 +13,29 @@ public class RatingExceptionJDBC implements RatingService{
     public static final String PASSWORD = "alexej1";
 
     public static final String INSERT_RATING =
-            "INSERT INTO rating (player,game,rating, ratedon) VALUES (?, ?, ?, ?)";
+            "INSERT INTO rating (player,game,rating, ratedon) VALUES (?, ?, ?, ?) " +
+                    "ON CONFLICT (player,game) DO UPDATE" +
+                    "SET VALUES (?, ?, ?, ?)";
 
-    public static final String SELECT_AVG_RATING =
+    public static final String AVERAGE_RATING =
             "SELECT rating FROM rating WHERE game = ?";
-    public static final String SELECT_RATING =
-            "SELECT player,game,rating,ratedon FROM rating WHERE game=? && player = ?";
+
+    public static final String SELECT_PLAYER =
+            "SELECT rating FROM rating WHERE game=? AND player = ?";
 
 
     @Override
     public void setRating(Rating rating) throws RatingException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             try(PreparedStatement ps = connection.prepareStatement(INSERT_RATING)){
-                ps.setString(1, rating.getGame());
-                ps.setString(2, rating.getPlayer());
+                ps.setString(1, rating.getPlayer());
+                ps.setString(2, rating.getGame());
                 ps.setInt(3, rating.getRating());
                 ps.setDate(4, new Date(rating.getRatedon().getTime()));
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new ScoreException("Error saving rating", e);
+            throw new RatingException("Error saving rating", e);
         }
     }
     @Override
@@ -42,7 +44,7 @@ public class RatingExceptionJDBC implements RatingService{
         int averageRating = 0;
         int elementCount = 0;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            try(PreparedStatement ps = connection.prepareStatement(SELECT_AVG_RATING)){
+            try(PreparedStatement ps = connection.prepareStatement(AVERAGE_RATING)){
                 ps.setString(2, game);
                 try(ResultSet rs = ps.executeQuery()) {
                     while(rs.next()) {
@@ -52,30 +54,34 @@ public class RatingExceptionJDBC implements RatingService{
                 }
             }
         } catch (SQLException e) {
-            throw new ScoreException("Error loading average rating", e);
+            throw new RatingException("Error loading average rating", e);
         }
         return averageRating/elementCount;
     }
 
     @Override
     public int getRating(String game, String player) throws RatingException {
+        int rating = 0;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            try(PreparedStatement ps = connection.prepareStatement(SELECT_RATING)){
-                ps.setString(2, game);
+            try (PreparedStatement ps = connection.prepareStatement(SELECT_PLAYER)) {
+                ps.setString(1, game);
+                ps.setString(2, player);
                 try(ResultSet rs = ps.executeQuery()) {
-                    while() {
-
-                    }
+                    if(rs.next()){
+                        rating = rs.getInt(1);
+                }
                 }
             }
-        } catch (SQLException e) {
-            throw new ScoreException("Error loading ratings", e);
+            } catch (SQLException e) {
+                throw new RatingException("Error loading " + player + " rating", e);
+            }
+            return rating;
         }
-        return ratings;
-    }
+
     public static void main(String[] args) throws Exception {
-        Rating rating = new Rating("peto","lightoff",4,new java.util.Date());
+        Rating rating = new Rating("duri","lightoff",4,new java.util.Date());
         RatingService ratingService = new RatingExceptionJDBC();
         ratingService.setRating(rating);
+        System.out.println(ratingService.getRating("lightoff","a lex"));
     }
 }

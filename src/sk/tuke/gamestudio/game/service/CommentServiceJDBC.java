@@ -1,7 +1,6 @@
 package sk.tuke.gamestudio.game.service;
 
 import sk.tuke.gamestudio.game.entity.Comment;
-import sk.tuke.gamestudio.game.entity.Score;
 
 import java.sql.*;
 import java.sql.Date;
@@ -57,10 +56,10 @@ public class CommentServiceJDBC implements CommentService{
         }
         return comments;
     }
-    public static void main(String[] args) throws Exception {
-            Comment comment = new Comment("Durssi","lightsoff","popici hra",new java.util.Date());
-            CommentService commentService = new CommentServiceJDBC();
-            commentService.addComment(comment);
-        System.out.println(commentService.getComments("lightsoff"));
-    }
+//    public static void main(String[] args) throws Exception {
+//            Comment comment = new Comment("Durssi","lightsoff","popici hra",new java.util.Date());
+//            CommentService commentService = new CommentServiceJDBC();
+//            commentService.addComment(comment);
+//        System.out.println(commentService.getComments("lightsoff"));
+//    }
 }
