@@ -5,39 +5,42 @@ import sk.tuke.gamestudio.game.core.Field;
 import sk.tuke.gamestudio.game.core.GameState;
 import sk.tuke.gamestudio.game.entity.Score;
 import sk.tuke.gamestudio.game.service.ScoreService;
+import sk.tuke.gamestudio.game.service.ScoreServiceJDBC;
+import sk.tuke.gamestudio.game.service.RatingService;
+import sk.tuke.gamestudio.game.service.CommentService;
 
 import java.util.Scanner;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 
 
 public class ConsoleUI {
 
-    private static final String GAME_NAME = "LightOff";
+    private static final String GAME_NAME = "LightsOff";
     private final Field field;
-    private ScoreService scoreService;
-
+    private ScoreService scoreService = new ScoreServiceJDBC();
+    private RatingService ratingService;
 
     public ConsoleUI(Field field) {
         this.field = field;
     }
 
     public void play() {
-        printScores();
+//        printScores();
         do {
             System.out.println();
             printField();
             processInput();
         } while (field.getState() == GameState.PLAYING);
-
         printField();
-
         if (field.getState() == GameState.SOLVED) {
             System.out.println("You won!!!");
-            scoreService.addScore(
-            new Score(GAME_NAME,System.getProperty("user.name"),5,new Date()));
+            scoreService.addScore(new Score(GAME_NAME,"user",5,new java.util.Date()));
         } else
             System.out.println("Sorry!!!");
     }
@@ -101,11 +104,10 @@ public class ConsoleUI {
             }
         }
     }
+
     private void printScores() {
         List<Score> scores = scoreService.getBestScores(GAME_NAME);
-
         Collections.sort(scores);
-
         System.out.println("Top scores:");
         for (Score s : scores) {
             System.out.println(s);

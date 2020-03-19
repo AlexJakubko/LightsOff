@@ -91,7 +91,7 @@ public class Field {
     }
     public void shineDots(int row, int column) {
         if (state == GameState.PLAYING) {
-            crossDotsChange(row,column);
+            crossDotsChange(row, column);
             if (isSolved()) {
                 state = GameState.SOLVED;
             }
@@ -127,12 +127,13 @@ public class Field {
             for (int column = 0; column < columnCount; column++) {
                 final Dot dot = dots[row][column];
                 if (dot.getState() == DotState.SHINE) {
+                    System.out.print("1");
                     lightsCount++;
                 }
             }
-            if (lightsCount == 0) {
-                return true;
-            }
+        }
+        if (lightsCount == 0) {
+            return true;
         }
         return false;
     }
