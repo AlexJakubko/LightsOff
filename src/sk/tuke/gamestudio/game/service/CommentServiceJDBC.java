@@ -16,7 +16,7 @@ public class CommentServiceJDBC implements CommentService{
             "INSERT INTO comment (player, game, comment, commentedon) VALUES (?, ?, ?, ?)";
 
     public static final String SELECT_COMMENT =
-            "SELECT game, player, comment, commentedon FROM comment WHERE game = ? ORDER BY commentedon DESC LIMIT 5;";
+            "SELECT player,game, comment, commentedon FROM comment WHERE game = ? ORDER BY commentedon DESC LIMIT 5;";
 
     public void addComment(Comment comment) throws CommentException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {

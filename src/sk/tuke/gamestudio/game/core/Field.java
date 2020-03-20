@@ -9,6 +9,8 @@ public class Field {
 
     private final int level;
 
+    private final String playersName;
+
     private final Dot[][] dots;
 
     private int previousRow = -1;
@@ -18,11 +20,12 @@ public class Field {
 
     private GameState state = GameState.PLAYING;
 
-    public Field(int rowCount, int columnCount, int level) {
+    public Field(int rowCount, int columnCount, int level , String playersName) {
 
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.level = level;
+        this.playersName = playersName;
         dots = new Dot[rowCount][columnCount];
         generate();
     }
@@ -148,6 +151,8 @@ public class Field {
     public GameState getState() {
         return state;
     }
+
+    public String getPlayersName(){return playersName;}
 
     public Dot getDot(int row, int column) {
         return dots[row][column];
