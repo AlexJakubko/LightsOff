@@ -127,7 +127,6 @@ public class Field {
             for (int column = 0; column < columnCount; column++) {
                 final Dot dot = dots[row][column];
                 if (dot.getState() == DotState.SHINE) {
-                    System.out.print("1");
                     lightsCount++;
                 }
             }
