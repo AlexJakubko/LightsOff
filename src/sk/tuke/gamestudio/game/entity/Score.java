@@ -1,6 +1,5 @@
 package sk.tuke.gamestudio.game.entity;
 
-import java.awt.datatransfer.FlavorEvent;
 import java.io.Serializable;
 import java.util.Date;
 

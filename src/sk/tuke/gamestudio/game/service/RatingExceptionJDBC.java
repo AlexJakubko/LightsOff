@@ -109,10 +109,10 @@ public class RatingExceptionJDBC implements RatingService {
             return rating;
         }
 
-        public static void main (String[]args) throws Exception {
-            Rating rating = new Rating("alex", "lightoff", 4, new Date());
-            RatingService ratingService = new RatingExceptionJDBC();
-            ratingService.setRating(rating);
-            System.out.println(ratingService.getRating("lightoff", "duri"));
-        }
+//        public static void main (String[]args) throws Exception {
+//            Rating rating = new Rating("alex", "lightoff", 4, new Date());
+//            RatingService ratingService = new RatingExceptionJDBC();
+//            ratingService.setRating(rating);
+//            System.out.println(ratingService.getRating("lightoff", "duri"));
+//        }
     }

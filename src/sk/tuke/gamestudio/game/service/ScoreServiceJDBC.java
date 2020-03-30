@@ -15,31 +15,64 @@ public class ScoreServiceJDBC implements ScoreService {
     "INSERT INTO score (game, player, points, playedon) VALUES (?, ?, ?, ?)";
 
     public static final String SELECT_SCORE =
-        "SELECT game, player, points, playedon FROM score WHERE game = ? ORDER BY points DESC LIMIT 10;";
+        "SELECT game, player, points, playedon FROM score WHERE game = ? ORDER BY points ASC LIMIT 5;";
+
+    public static final String UPDATE =
+            "UPDATE score SET points = ?"
+                    + " where player = ? and game = ?";
+
+    public static final String EXIST =
+            "SELECT player,points FROM score"
+                    + " where player = ? and game = ?";
 
 
     @Override
     public void addScore(Score score) throws ScoreException {
+        String statement = null;
+        ResultSet rs = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            try(PreparedStatement ps = connection.prepareStatement(INSERT_SCORE)){
-                ps.setString(1, score.getGame());
-                ps.setString(2, score.getPlayer());
-                ps.setInt(3, score.getPoints());
-                ps.setDate(4, new Date(score.getPlayedOn().getTime()));
+            try (PreparedStatement ps = connection.prepareStatement(EXIST)) {
+                ps.setString(1, score.getPlayer());
+                ps.setString(2, score.getGame());
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                            if(score.getPoints() >=rs.getInt(2))
+                            {
+                                return;
+                            }
+                            statement = UPDATE;
+                } else statement = INSERT_SCORE;
+            }
+        } catch (SQLException e) {
+            throw new ScoreException("Error saving score", e);
+        }
 
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            try (PreparedStatement ps = connection.prepareStatement(statement)) {
+                if (statement.equals(UPDATE)) {
+                    ps.setInt(1, score.getPoints());
+                    ps.setString(2, score.getPlayer());
+                    ps.setString(3, score.getGame());
+                } else {
+                    ps.setString(1, score.getGame());
+                    ps.setString(2, score.getPlayer());
+                    ps.setInt(3, score.getPoints());
+                    ps.setDate(4, new Date(score.getPlayedOn().getTime()));
+                }
                 ps.executeUpdate();
+            } catch (SQLException e) {
+                throw new ScoreException("Error saving score", e);
             }
         } catch (SQLException e) {
             throw new ScoreException("Error saving score", e);
         }
     }
-
-    @Override
+            @Override
     public List<Score> getBestScores(String game) throws ScoreException {
         List<Score> scores = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             try(PreparedStatement ps = connection.prepareStatement(SELECT_SCORE)){
-                ps.setString(1, game);
+                    ps.setString(1, game);
                 try(ResultSet rs = ps.executeQuery()) {
                     while(rs.next()) {
                         Score score = new Score(
@@ -59,8 +92,8 @@ public class ScoreServiceJDBC implements ScoreService {
     }
 
 //    public static void main(String[] args) throws Exception {
-//        Score score = new Score("LightsOff", "Peter", 15, new java.util.Date());
-//    ScoreService scoreService = new ScoreServiceJDBC();
+//        Score score = new Score("LightsOff", "Peter", 11, new java.util.Date());
+//        ScoreService scoreService = new ScoreServiceJDBC();
 //        scoreService.addScore(score);
 //        System.out.println(scoreService.getBestScores("LightsOff"));
 //    }

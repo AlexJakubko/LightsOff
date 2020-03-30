@@ -12,12 +12,16 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.List;
 
+    public class ConsoleUI {
+        public static final String RESET = "\u001B[0m";
+        public static final String RED = "\u001B[31m";
+        public static final String GREEN = "\u001B[32m";
+        public static final String YELLOW = "\u001B[33m";
+        public static final String BLUE = "\u001B[34m";
+        public static final String PURPLE = "\u001B[35m";
+        public static final String CYAN = "\u001B[36m";
 
-
-
-public class ConsoleUI {
-
-    private static final String GAME_NAME = "LightsOff";
+        private static final String GAME_NAME = "LightsOff";
     private final Field field;
     private ScoreService scoreService = new ScoreServiceJDBC();
     private  CommentService commentService = new CommentServiceJDBC();
@@ -27,55 +31,48 @@ public class ConsoleUI {
         this.field = field;
     }
 
-    public void play() throws CommentException {
+    public void play() {
         printScores();
-        int points = 0;
         do {
+            System.out.print(GREEN+"Your score:"+ RED+field.getPlayersScore()+RESET);
             System.out.println();
+            System.out.println("Playing field ");
             printField();
             processInput();
-            points++;
         } while (field.getState() == GameState.PLAYING);
-        printField();
-        if (field.getState() == GameState.SOLVED) {
-            System.out.println("You won!!!");
+            printField();
+            System.out.println(GREEN+ "You won!!!" + RESET);
             System.out.println("");
-            scoreService.addScore(new Score(GAME_NAME,field.getPlayersName(),points,new java.util.Date()));
+            scoreService.addScore(new Score(GAME_NAME,field.getPlayersName(),field.getPlayersScore(),new java.util.Date()));
             printComments();
-            addComment();
-        } else
-            System.out.println("Sorry!!!");
+
     }
-
-
-
-    public void printField() {
+        public void printField() {
         printFieldHeader();
         printFieldBody();
     }
 
-
     private void printFieldHeader() {
         System.out.print(" ");
         for (int column = 0; column < field.getColumnCount(); column++) {
-            System.out.print("  ");
+            System.out.print(RED+"  ");
             System.out.print(column + 1);
         }
-        System.out.println();
+        System.out.println(RESET);
     }
 
     private void printFieldBody() {
         for (int row = 0; row < field.getRowCount(); row++) {
-            System.out.print((char) ('A' + row));
-            System.out.print(' ');
+            System.out.print(BLUE+(char) ('A'+ row));
+            System.out.print(RESET+' ');
             for (int column = 0; column < field.getColumnCount(); column++) {
                 final Dot dot = field.getDot(row, column);
                 switch (dot.getState()) {
                     case SHINE:
-                        System.out.print(" X ");
+                        System.out.print(YELLOW+" O "+RESET);
                         break;
                     case DONTSHINE:
-                        System.out.print(" O ");
+                        System.out.print(" X ");
                 }
             }
             System.out.println();
@@ -86,7 +83,7 @@ public class ConsoleUI {
     protected void processInput() {
         while (true) {
             System.out.println();
-            System.out.print("Enter input (e.g. SA0, X): ");
+            System.out.print(YELLOW+"Enter input (e.g. SA0, X): "+RESET);
             String input = new Scanner(System.in).nextLine().trim().toUpperCase();
             if ("X".equals(input))
                 System.exit(0);
@@ -102,10 +99,10 @@ public class ConsoleUI {
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("You put wrong Number Format");
+                    System.out.println(RED+"You put wrong Number Format"+RESET);
                 }
             }else{
-                System.out.println("Wrong input!");
+                System.out.println(RED+"Wrong input!"+RESET);
             }
         }
     }
@@ -115,8 +112,7 @@ public class ConsoleUI {
             List<Score> scores = scoreService.getBestScores(GAME_NAME);
             int index = 1;
             System.out.println();
-            System.out.println("Top 10 players score");
-            System.out.println();
+            System.out.println(GREEN+"Best score: "+RESET);
             System.out.println("No. Player          Score      PlayedOn");
             System.out.println("----------------------------------------------------");
             for (Score score : scores) {
@@ -124,36 +120,46 @@ public class ConsoleUI {
                 index++;
             }
             System.out.println();
-            System.out.println("Playing field ");
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
     private void printComments() {
-        try {
-            List<Comment> comments = commentService.getComments(GAME_NAME);
-            int index = 1;
-            System.out.println();
-            System.out.println("Comments:");
-            System.out.println("------------------------------------------");
-            for (Comment comment : comments) {
-                System.out.format("%2d. %-16s %s\n", index, comment.getPlayer(),comment.getComment());
-                index++;
-            }
-            System.out.println();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void addComment() {
-
-        System.out.println("You want leave comment? Answer: Yes or No");
-
-        while(true) {
-            System.out.print("Answer:");
+        System.out.println(PURPLE+"Would you like to open the comment section?  Insert: 'Yes' or 'No'"+RESET);
+        while (true) {
+            System.out.print(PURPLE+"Answer:"+RESET);
             String input = new Scanner(System.in).nextLine().trim().toUpperCase();
             if ("YES".equals(input)) {
-                System.out.println("Write your comment: ");
+                try {
+                List<Comment> comments = commentService.getComments(GAME_NAME);
+                int index = 1;
+                System.out.println();
+                System.out.println(GREEN+"Comments:"+RESET);
+                System.out.println("------------------------------------------");
+                for (Comment comment : comments) {
+                    System.out.format("%2d. %-16s %s\n", index, comment.getPlayer(), comment.getComment());
+                    index++;
+                }
+                System.out.println();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+                addComment();
+                return;
+            } else if ("NO".equals(input)) {
+                return;
+                } else {
+            System.out.println(RED+"Wrong input! Try again."+RESET);
+            }
+        }
+    }
+    private void addComment(){
+        System.out.println(PURPLE+"Would you like to leave a comment and rating? Answer: Yes or No"+RESET);
+        while(true) {
+            System.out.print(PURPLE+"Answer:"+RESET);
+            String input = new Scanner(System.in).nextLine().trim().toUpperCase();
+            if ("YES".equals(input)) {
+                System.out.println(PURPLE+"Write your comment: "+RESET);
                 input = new Scanner(System.in).nextLine();
                 try {
                     commentService.addComment(new Comment(field.getPlayersName(),GAME_NAME,input,new Date()));
@@ -167,17 +173,17 @@ public class ConsoleUI {
                 }
                 return;
             } else if ("NO".equals(input)) {
-                System.exit(0);
+                return;
             } else {
-                System.out.println("Wrong input! Try again.");
+                System.out.println(RED+"Wrong input! Try again."+RESET);
             }
         }
     }
 
     private void addRating() throws RatingException {
-        System.out.println("Please rate our game (1 to 5)");
+        System.out.println(PURPLE+"Please rate our game (1 to 5)"+RESET);
         while(true) {
-            System.out.print("Rate:");
+            System.out.print(PURPLE+"Rate:"+RESET);
             String input = new Scanner(System.in).nextLine();
             Scanner scanner = new Scanner(input);
             if(scanner.hasNextInt()){
@@ -187,7 +193,7 @@ public class ConsoleUI {
                     return;
                 }
             }else{
-            System.out.println("Wrong input ! Try again.");
+            System.out.println(RED+"Wrong input ! Try again."+RESET);
         }
         }
     }

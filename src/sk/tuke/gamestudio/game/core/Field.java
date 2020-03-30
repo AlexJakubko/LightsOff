@@ -13,6 +13,8 @@ public class Field {
 
     private final Dot[][] dots;
 
+    private int playersScore=0;
+
     private int previousRow = -1;
 
     private  int previousColumn = -1;
@@ -27,10 +29,10 @@ public class Field {
         this.level = level;
         this.playersName = playersName;
         dots = new Dot[rowCount][columnCount];
-        generate();
+        Initialize();
     }
 
-    private void generate() {
+    private void Initialize() {
         for (int row = 0; row < rowCount; row++) {
             for (int column = 0; column < columnCount; column++) {
                 final Dot dot = dots[row][column];
@@ -38,44 +40,14 @@ public class Field {
                     dots[row][column] = new Dot();
             }
         }
-        createLights();
+        generate();
     }
 
-    private void createLights() {
-        switch (level) {
-            case 1:
-                setLights(1);
-                break;
-            case 2:
-                setLights(2);
-                break;
-            case 3:
-                setLights(3);
-                break;
-            case 4:
-                setLights(4);
-                break;
-            case 5:
-                setLights(5);
-                break;
-            case 6:
-                setLights(6);
-                break;
-            case 7:
-                setLights(7);
-                break;
-            case 8:
-                setLights(8);
-                break;
-            case 9:
-                setLights(9);
-                break;
-            case 10:
-                setLights(10);
-                break;
-            default:
-                System.out.println("You are out of range !");
-                break;
+    private void generate() {
+        if(level>0&&level<=10) {
+            setLights(level);
+        }else {
+            System.out.println("You are out of range !");
         }
     }
 
@@ -98,6 +70,7 @@ public class Field {
             if (isSolved()) {
                 state = GameState.SOLVED;
             }
+        playersScore++;
         }
     }
     private void crossDotsChange(int row , int column) {
@@ -134,10 +107,7 @@ public class Field {
                 }
             }
         }
-        if (lightsCount == 0) {
-            return true;
-        }
-        return false;
+        return lightsCount == 0;
     }
 
     public int getRowCount() {
@@ -156,6 +126,9 @@ public class Field {
 
     public Dot getDot(int row, int column) {
         return dots[row][column];
+    }
+    public int getPlayersScore(){
+        return playersScore;
     }
 
 
