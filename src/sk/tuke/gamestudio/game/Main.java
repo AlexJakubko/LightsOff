@@ -10,11 +10,15 @@ public class Main {
     public static final String RESET = "\u001B[0m";
     public static final String YELLOW = "\u001B[33m";
     public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
 
     public static void main(String[] args) {
         int level = 0;
         System.out.print(YELLOW+"Please insert your name here:"+RESET);
         String playersName = new Scanner(System.in).nextLine();
+        System.out.println(GREEN+"Control of the game:");
+        System.out.println("You are using coordinates.For the row coodinates use letters and for columns use numbers");
+        System.out.println("Form of command :SA0   S-Select, A-row , 0-column"+RESET);
         while (true) {
             while(true){
             System.out.println(PURPLE+"Please insert levels difficulty (1 to 10) or for exit insert X "+RESET);

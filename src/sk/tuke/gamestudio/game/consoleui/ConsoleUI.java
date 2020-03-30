@@ -127,7 +127,7 @@ import java.util.List;
     private void printComments() {
         System.out.println(PURPLE+"Would you like to open the comment section?  Insert: 'Yes' or 'No'"+RESET);
         while (true) {
-            System.out.print(PURPLE+"Answer:"+RESET);
+            System.out.print(YELLOW+"Answer:"+RESET);
             String input = new Scanner(System.in).nextLine().trim().toUpperCase();
             if ("YES".equals(input)) {
                 try {
@@ -156,10 +156,10 @@ import java.util.List;
     private void addComment(){
         System.out.println(PURPLE+"Would you like to leave a comment and rating? Answer: Yes or No"+RESET);
         while(true) {
-            System.out.print(PURPLE+"Answer:"+RESET);
+            System.out.print(YELLOW+"Answer:"+RESET);
             String input = new Scanner(System.in).nextLine().trim().toUpperCase();
             if ("YES".equals(input)) {
-                System.out.println(PURPLE+"Write your comment: "+RESET);
+                System.out.println(YELLOW+"Write your comment: "+RESET);
                 input = new Scanner(System.in).nextLine();
                 try {
                     commentService.addComment(new Comment(field.getPlayersName(),GAME_NAME,input,new Date()));
@@ -183,7 +183,7 @@ import java.util.List;
     private void addRating() throws RatingException {
         System.out.println(PURPLE+"Please rate our game (1 to 5)"+RESET);
         while(true) {
-            System.out.print(PURPLE+"Rate:"+RESET);
+            System.out.print(YELLOW+"Rate:"+RESET);
             String input = new Scanner(System.in).nextLine();
             Scanner scanner = new Scanner(input);
             if(scanner.hasNextInt()){
