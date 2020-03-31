@@ -98,7 +98,7 @@ import java.util.List;
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(RED+"You put wrong Number Format"+RESET);
+                    System.out.println(RED+"You put wrong format! Try again." +RESET);
                 }
             }else{
                 System.out.println(RED+"Wrong input!"+RESET);
