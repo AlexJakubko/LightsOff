@@ -76,10 +76,10 @@ public class RatingExceptionJDBC implements RatingService {
             int elementCount = 0;
             try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
                 try (PreparedStatement ps = connection.prepareStatement(AVERAGE_RATING)) {
-                    ps.setString(2, game);
+                    ps.setString(1, game);
                     try (ResultSet rs = ps.executeQuery()) {
                         while (rs.next()) {
-                            averageRating += rs.getInt(3);
+                            averageRating += rs.getInt(1);
                             elementCount++;
                         }
                     }

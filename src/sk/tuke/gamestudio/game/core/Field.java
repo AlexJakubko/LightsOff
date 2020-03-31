@@ -32,7 +32,7 @@ public class Field {
         Initialize();
     }
 
-    private void Initialize() {
+        private void Initialize() {
         for (int row = 0; row < rowCount; row++) {
             for (int column = 0; column < columnCount; column++) {
                 final Dot dot = dots[row][column];

@@ -19,7 +19,6 @@ import java.util.List;
         public static final String YELLOW = "\u001B[33m";
         public static final String BLUE = "\u001B[34m";
         public static final String PURPLE = "\u001B[35m";
-        public static final String CYAN = "\u001B[36m";
 
         private static final String GAME_NAME = "LightsOff";
     private final Field field;
@@ -181,6 +180,8 @@ import java.util.List;
     }
 
     private void addRating() throws RatingException {
+        int showRate = ratingService.getAverageRating(GAME_NAME);
+        System.out.println(GREEN+"The average rating is:"+showRate);
         System.out.println(PURPLE+"Please rate our game (1 to 5)"+RESET);
         while(true) {
             System.out.print(YELLOW+"Rate:"+RESET);
