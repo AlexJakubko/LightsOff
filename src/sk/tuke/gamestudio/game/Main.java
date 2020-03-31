@@ -17,6 +17,9 @@ public class Main {
         System.out.print(YELLOW+"Please insert your name here:"+RESET);
         String playersName = new Scanner(System.in).nextLine();
         System.out.println(GREEN+"Control of the game:");
+        System.out.println("The player's task is to turn off all lights on the board. Clicking a light box changes ");
+        System.out.println("its status from on to off, but the same happens with a field adjacent ");
+        System.out.println("to the north, south, east, and west of the clicked field.");
         System.out.println("You are using coordinates.For the row coodinates use letters and for columns use numbers");
         System.out.println("Form of command :SA0   S-Select, A-row , 0-column"+RESET);
         while (true) {
