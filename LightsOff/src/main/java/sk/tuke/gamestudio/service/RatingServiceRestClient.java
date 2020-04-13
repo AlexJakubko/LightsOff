@@ -16,10 +16,10 @@ public class RatingServiceRestClient implements RatingService {
         restTemplate.postForEntity(URL, rating, Rating.class);
     }
 
-//    @Override
-//    public int getAverageRating(String game) {
-//
-//    }
+    @Override
+    public int getAverageRating(String game) {
+    return 0;
+    }
 
     @Override
     public int getRating(String game, String player) {
