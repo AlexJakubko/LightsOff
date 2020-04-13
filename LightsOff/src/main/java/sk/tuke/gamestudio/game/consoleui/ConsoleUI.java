@@ -1,5 +1,6 @@
 package sk.tuke.gamestudio.game.consoleui;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.game.core.*;
 import sk.tuke.gamestudio.entity.*;
 import sk.tuke.gamestudio.service.*;
@@ -17,10 +18,15 @@ import java.util.List;
         public static final String PURPLE = "\u001B[35m";
 
         private static final String GAME_NAME = "LightsOff";
+
     private final Field field;
-    private ScoreService scoreService = new ScoreServiceJDBC();
-    private CommentService commentService = new CommentServiceJDBC();
-    private RatingService ratingService = new RatingExceptionJDBC();
+
+    @Autowired
+    private ScoreService scoreService ;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private RatingService ratingService;
 
     public ConsoleUI(Field field) {
         this.field = field;

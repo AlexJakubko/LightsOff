@@ -41,16 +41,19 @@ public class SpringClient {
     @Bean
     public ScoreService scoreService() {
         return new ScoreServiceJPA();
+//        return new ScoreServiceJDBC();
     }
 
     @Bean
     public CommentService commentService() {
         return new CommentServiceJPA();
+//        return new CommentServiceJDBC();
     }
 
     @Bean
     public RatingService ratingService(){
         return new RatingServiceJPA();
+//        return new RatingServiceJDBC();
     }
 
 }

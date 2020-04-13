@@ -24,6 +24,8 @@ public class Comment implements Comparable<Comment>, Serializable {
 
     private Date commentedOn;
 
+    public Comment(){}
+
     public Comment(String player, String game, String comment, Date commentedOn) {
         this.player = player;
         this.game = game;

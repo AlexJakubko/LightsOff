@@ -1,16 +1,16 @@
 package sk.tuke.gamestudio.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@NamedQuery( name = "Rating.getRating",
-        query = "SELECT s FROM Rating s WHERE s.game=:game AND s.player=:player")
-
+@NamedQueries(value = {
+        @NamedQuery(name = "Rating.getRating",
+                query = "SELECT s FROM Rating s WHERE s.player=:player AND s.game=:game"),
+        @NamedQuery(name = "Rating.getAverageRating",
+                query = "SELECT s FROM Rating s WHERE s.game=:game"),
+})
 public class Rating implements Comparable <Rating> , Serializable {
     @Id
     @GeneratedValue
@@ -24,6 +24,9 @@ public class Rating implements Comparable <Rating> , Serializable {
     private int rating;
 
     private Date ratedon;
+
+    public Rating(){
+    }
 
     public Rating(String player, String game, int rating, Date ratedon) {
         this.player = player;
@@ -76,7 +79,9 @@ public class Rating implements Comparable <Rating> , Serializable {
     }
 
     @Override
-    public int compareTo(Rating rating) {
-        return 0;
+    public int compareTo(Rating o) {
+        if(getRatedon() == null || o.getRatedon() == null) return 0;
+        return getRatedon().compareTo(o.getRatedon());
     }
+
 }

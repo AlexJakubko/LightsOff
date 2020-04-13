@@ -19,17 +19,18 @@ public class RatingServiceJPA implements RatingService {
 
     @Override
     public int getAverageRating(String game) throws RatingException {
-        int averageRating=(int) Math.round((float)entityManager.createQuery("SELECT AVG(e.rating) FROM Rating e WHERE e.game=:game")
-                .setParameter("game",game).getSingleResult());
+        List<Rating> ratings= entityManager.createNamedQuery("Rating.getAverageRating")
+                .setParameter("game",game).getResultList();
+        int averageRating = 0;
+        for(Rating rating :ratings){
+            averageRating+=rating.getRating();
+        }
         return averageRating;
-
     }
 
     @Override
     public int getRating(String game, String player) throws RatingException {
-        Rating playersRating = (Rating) entityManager.createNamedQuery("Rating.getRating").setParameter("game", game)
-                .setParameter("player", player).getSingleResult();
-
+        Rating playersRating = (Rating) entityManager.createNamedQuery("Rating.getRating").setParameter("player", player).setParameter("game", game).getSingleResult();
         return playersRating.getRating();
     }
 }

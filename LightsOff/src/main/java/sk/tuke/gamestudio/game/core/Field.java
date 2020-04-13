@@ -127,6 +127,7 @@ public class Field {
     public Dot getDot(int row, int column) {
         return dots[row][column];
     }
+
     public int getPlayersScore(){
         return playersScore;
     }

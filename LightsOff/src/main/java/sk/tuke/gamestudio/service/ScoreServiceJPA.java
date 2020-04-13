@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
+
 @Transactional
 public class ScoreServiceJPA implements ScoreService {
     @PersistenceContext
