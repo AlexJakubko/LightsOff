@@ -1,4 +1,4 @@
-package sk.tuke.gamestudio.service;
+package sk.tuke.gamestudio.service.CommentServices;
 
 import sk.tuke.gamestudio.entity.Comment;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentServiceJDBC implements CommentService{
-    public static final String URL = "jdbc:postgresql://localhost:5432/gamestudio";
+       public static final String URL = "jdbc:postgresql://localhost:5432/gamestudio";
     public static final String USER = "postgres";
     public static final String PASSWORD = "alexej1";
 

@@ -1,4 +1,4 @@
-package sk.tuke.gamestudio.service;
+package sk.tuke.gamestudio.service.CommentServices;
 
 import org.springframework.web.client.RestTemplate;
 import sk.tuke.gamestudio.entity.Comment;

@@ -1,4 +1,4 @@
-package sk.tuke.gamestudio.service;
+package sk.tuke.gamestudio.service.ScoreServices;
 
 import org.springframework.web.client.RestTemplate;
 import sk.tuke.gamestudio.entity.Score;

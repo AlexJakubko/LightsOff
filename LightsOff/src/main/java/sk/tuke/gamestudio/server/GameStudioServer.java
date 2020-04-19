@@ -5,7 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sk.tuke.gamestudio.service.*;
+import sk.tuke.gamestudio.service.CommentServices.CommentService;
+import sk.tuke.gamestudio.service.CommentServices.CommentServiceJPA;
+import sk.tuke.gamestudio.service.RatingServices.RatingService;
+import sk.tuke.gamestudio.service.RatingServices.RatingServiceJPA;
+import sk.tuke.gamestudio.service.ScoreServices.ScoreService;
+import sk.tuke.gamestudio.service.ScoreServices.ScoreServiceJPA;
 
 @SpringBootApplication
 @Configuration

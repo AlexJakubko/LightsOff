@@ -3,9 +3,8 @@ package sk.tuke.gamestudio.server.webservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sk.tuke.gamestudio.entity.Rating;
-import sk.tuke.gamestudio.service.RatingException;
-import sk.tuke.gamestudio.service.RatingService;
-
+import sk.tuke.gamestudio.service.RatingServices.RatingException;
+import sk.tuke.gamestudio.service.RatingServices.RatingService;
 
 @RestController
 @RequestMapping("/api/rating")
@@ -27,5 +26,4 @@ public class RatingRestService {
     public int getRating(@PathVariable String game,@PathVariable String player) throws RatingException {
         return ratingService.getRating(game,player);
     }
-
 }

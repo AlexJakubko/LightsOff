@@ -3,8 +3,11 @@ package sk.tuke.gamestudio.game.consoleui;
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.game.core.*;
 import sk.tuke.gamestudio.entity.*;
-import sk.tuke.gamestudio.service.*;
-import sk.tuke.gamestudio.SpringClient;
+import sk.tuke.gamestudio.service.CommentServices.CommentException;
+import sk.tuke.gamestudio.service.CommentServices.CommentService;
+import sk.tuke.gamestudio.service.RatingServices.RatingException;
+import sk.tuke.gamestudio.service.RatingServices.RatingService;
+import sk.tuke.gamestudio.service.ScoreServices.ScoreService;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -47,22 +50,7 @@ public class ConsoleUI {
         System.out.println("");
         scoreService.addScore(new Score(GAME_NAME, field.getPlayersName(), field.getPlayersScore(), new java.util.Date()));
         printComments();
-//        resetGame();
     }
-//    private void resetGame() {
-//        System.out.println(PURPLE + "Do you like to play again or end the game ? Insert: Play or End" + RESET);
-//        while (true) {
-//            System.out.print(YELLOW + "Answer:" + RESET);
-//            String input = new Scanner(System.in).nextLine().trim().toUpperCase();
-//            if ("PLAY".equals(input)) {
-//                System.exit(0);
-//            } else if ("END".equals(input)) {
-//                System.exit(0);
-//            } else {
-//                System.out.println(RED + "Wrong input! Try again! " + RESET);
-//            }
-//        }
-//    }
 
     public void printField() {
         printFieldHeader();
@@ -218,7 +206,6 @@ public class ConsoleUI {
             }
         }
     }
-
 }
 
 

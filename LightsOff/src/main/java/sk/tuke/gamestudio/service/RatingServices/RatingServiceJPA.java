@@ -1,4 +1,4 @@
-package sk.tuke.gamestudio.service;
+package sk.tuke.gamestudio.service.RatingServices;
 
 import sk.tuke.gamestudio.entity.Rating;
 
@@ -28,6 +28,7 @@ public class RatingServiceJPA implements RatingService {
         }
         return 0;
     }
+
     @Override
     public int getRating(String game, String player){
         Rating playersRating = (Rating) entityManager.createNamedQuery("Rating.getRating").setParameter("player", player).setParameter("game", game).getSingleResult();

@@ -1,7 +1,6 @@
 package sk.tuke.gamestudio;
 
 import sk.tuke.gamestudio.game.consoleui.ConsoleUI;
-import sk.tuke.gamestudio.service.*;
 import sk.tuke.gamestudio.game.core.Field;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
@@ -11,6 +10,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import sk.tuke.gamestudio.service.CommentServices.CommentService;
+import sk.tuke.gamestudio.service.CommentServices.CommentServiceRestClient;
+import sk.tuke.gamestudio.service.RatingServices.RatingService;
+import sk.tuke.gamestudio.service.RatingServices.RatingServiceRestClient;
+import sk.tuke.gamestudio.service.ScoreServices.ScoreService;
+import sk.tuke.gamestudio.service.ScoreServices.ScoreServiceRestClient;
 
 import java.util.Scanner;
 
@@ -27,7 +32,6 @@ public class SpringClient {
     public static final String GREEN = "\u001B[32m";
 
     public static void main(String[] args) {
-
         new SpringApplicationBuilder(SpringClient.class).web(WebApplicationType.NONE).run(args);
         //SpringApplication.run(SpringClient.class, args);
     }
