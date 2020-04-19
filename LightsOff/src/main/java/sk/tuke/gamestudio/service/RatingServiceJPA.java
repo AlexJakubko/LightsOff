@@ -5,7 +5,6 @@ import sk.tuke.gamestudio.entity.Rating;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Transactional
 public class RatingServiceJPA implements RatingService {
@@ -18,18 +17,17 @@ public class RatingServiceJPA implements RatingService {
     }
 
     @Override
-    public int getAverageRating(String game){
-        List<Rating> ratings= entityManager.createNamedQuery("Rating.getAverageRating")
-                .setParameter("game",game).getResultList();
-        int averageRating = 0;
-        int count=0;
-        for(Rating rating :ratings){
-            averageRating+=rating.getRating();
-            count++;
-        }
-        return averageRating/count;
-    }
+    public int getAverageRating(String game) {
+        try {
+            double averageRating = (double) entityManager.createNamedQuery("Rating.getAverageRating")
+                    .setParameter("game", game).getSingleResult();
+            return (int)Math.round(averageRating);
 
+        } catch (NullPointerException e) {
+            System.out.println("null in ratings");
+        }
+        return 0;
+    }
     @Override
     public int getRating(String game, String player){
         Rating playersRating = (Rating) entityManager.createNamedQuery("Rating.getRating").setParameter("player", player).setParameter("game", game).getSingleResult();

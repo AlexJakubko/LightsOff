@@ -9,7 +9,7 @@ import java.util.Date;
         @NamedQuery(name = "Rating.getRating",
                 query = "SELECT s FROM Rating s WHERE s.player=:player AND s.game=:game"),
         @NamedQuery(name = "Rating.getAverageRating",
-                query = "SELECT s FROM Rating s WHERE s.game=:game"),
+                query = "SELECT AVG (s.rating) FROM Rating s WHERE s.game=:game"),
 })
 public class Rating implements Comparable <Rating> , Serializable {
     @Id

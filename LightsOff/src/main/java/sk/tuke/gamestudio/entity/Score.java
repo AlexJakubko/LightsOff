@@ -33,6 +33,7 @@ public class Score implements Comparable<Score>, Serializable {
         this.playedOn = playedOn;
     }
 
+
     public String getPlayer() {
         return player;
     }

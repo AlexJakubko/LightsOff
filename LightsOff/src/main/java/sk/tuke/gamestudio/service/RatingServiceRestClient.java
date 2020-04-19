@@ -4,6 +4,7 @@ import org.springframework.web.client.RestTemplate;
 import sk.tuke.gamestudio.entity.Rating;
 
 
+
 public class RatingServiceRestClient implements RatingService {
     private static final String URL = "http://localhost:8080/api/rating";
 
@@ -16,12 +17,11 @@ public class RatingServiceRestClient implements RatingService {
 
     @Override
     public int getAverageRating(String game) {
-//        return restTemplate.exchange(URL + "/" + game,RatingService.class);
-     return 0;
+        return restTemplate.getForEntity(URL + "/" + game,int.class).getBody();
     }
     @Override
     public int getRating(String game, String player) {
-        return 0;
+        return restTemplate.getForEntity(URL + "/" + game+"/"+player,int.class).getBody();
     }
 }
 
