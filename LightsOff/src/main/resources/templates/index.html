@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Gamestudio</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/static/css/stylesheet.css"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="row">
+    <div class="col-md-4"></div>
+
+    <div class="col-xl-4">
+
+        <h1>Welcome to Gamestudio!</h1>
+
+
+        <div th:if="${@userController.isLogged()}">
+            You are logged as <span th:text="${@userController.getLoggedUser()}"/>.
+            <a href="/user/logout">
+                <button class="btn btn-primary">Logout</button>
+            </a>
+        </div>
+
+        <div th:unless="${@userController.isLogged()}">
+            If you would like to leave comment or rating you need to sign up.
+            Please insert your name and click on the Play Game.
+            <form class="px-4 py-3" method="get" action="/user/login">
+                <div class="form-group">
+                    <label for="PlayersName">Players name</label>
+                    <input type="text" name="login" class="form-control" id="PlayersName" placeholder="Name" required>
+                </div>
+                <div align="center">
+                    <button type="submit" class="btn btn-primary">Login and play</button>
+                </div>
+            </form>
+            <div align="center">
+                <a href="/lightsoff">
+                    <button class="btn btn-primary">Play without login</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4"></div>
+    </div>
+</div>
+</body>
+</html>

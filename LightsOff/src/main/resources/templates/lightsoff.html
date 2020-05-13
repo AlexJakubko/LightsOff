@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>LightsOff</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/stylesheet.css"/>
+</head>
+<body>
+<div class="container-grid">
+    <nav class="navbar bg-light navbar-expand-lg navbar-light">
+        <a href="/lightsoff/menu">
+            <h1 class="logo">Lights Off</h1>
+        </a>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="login-bar">
+                <div th:unless="${@userController.isLogged()}">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/">
+                                <button type="button" class="btn btn-success">Sign in</button>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div th:if="${@userController.isLogged()}">
+                    You are logged as <span th:text="${@userController.loggedUser}"/>.
+                    <a href="/user/logout">
+                        <button type="button" class="btn btn-danger"> Logout</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-md-9 col-sm-12">
+            <div class="borders">
+                <div th:if="${not @lightsOffController.isFirstset()}">
+                    <div class="game-action">
+                        <div class="actual_score">
+                            <p>
+                            Score:
+                                <tr th:text="${@lightsOffController.getActualScore()}"/>
+                            </p>
+                        </div>
+                        <div>
+                            <form method="get" action="/lightsoff/retry">
+                                <button type="submit" class="btn btn-primary">Start again with same level</button>
+                            </form>
+                            <form method="get" action="/lightsoff/menu">
+                                <button type="submit" class="btn btn-primary">Open menu</button>
+                            </form>
+                        </div>
+                        >
+                    </div>
+
+                    <div class="game_field">
+                        <div th:utext="${@lightsOffController.getHtmlField()}"/>
+                    </div>
+                </div>
+
+                <div th:if="${@lightsOffController.isFirstset()}">
+                    <div class="play_menu">
+                        <form method="get" action="/lightsoff/new">
+                            <label for="PlayersLevel">Level</label>
+                            <input name="level" id="PlayersLevel" type="number" max="10" min="1" required>
+                            <button type="submit" class="btn btn-success">Play</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comments-grid">
+                <table class="table table-sm table-design-comments">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Comment</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="table-warning" scope="row" th:each="comment , state: ${comments}">
+                        <td th:text="${state.count}"/>
+                        <td th:text="${comment.player}"/>
+                        <td th:text="${comment.comment}"/>
+                        <td th:text="${#calendars.format(comment.commentedOn,'HH:mm dd MMMM yyyy')}"/>
+                    </tr>
+                    </tbody>
+                </table>
+                <form method="get" action="/lightsoff/addcomment">
+                    <div>
+                        <label for="PlayersComment">Comment</label>
+                        <input name="comment" id="PlayersComment" type="text" max="50" min="1" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12" align="center">
+            <div class="table-responsible table-gray table-div">
+                <table class="table table-sm table-design-score">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr class="table-success" scope="row" th:each="score,state : ${scores}">
+                        <td th:text="${state.count}"/>
+                        <td th:text="${score.player}"/>
+                        <td th:text="${score.points}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
