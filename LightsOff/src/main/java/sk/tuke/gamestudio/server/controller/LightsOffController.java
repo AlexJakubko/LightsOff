@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 
 import sk.tuke.gamestudio.entity.Comment;
+import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.core.Field;
 import sk.tuke.gamestudio.game.core.GameState;
@@ -16,6 +17,7 @@ import sk.tuke.gamestudio.game.core.Dot;
 
 import sk.tuke.gamestudio.service.CommentServices.CommentException;
 import sk.tuke.gamestudio.service.CommentServices.CommentService;
+import sk.tuke.gamestudio.service.RatingServices.RatingException;
 import sk.tuke.gamestudio.service.RatingServices.RatingService;
 import sk.tuke.gamestudio.service.ScoreServices.ScoreService;
 
@@ -48,13 +50,13 @@ public class LightsOffController {
         }
         try {
             if (field.getState() == GameState.PLAYING && firstSet == false) {
-                if(row!=null||column!=null) {
+                if (row != null || column != null) {
                     field.shineDots(Integer.parseInt(row), Integer.parseInt(column));
                 }
                 if (field.getState() == GameState.SOLVED) {
                     firstSet = true;
-                    if (userController.isLogged()){
-                        scoreService.addScore(new Score("LightsOff",field.getPlayersName(), field.getPlayersScore(), new Date()));
+                    if (userController.isLogged()) {
+                        scoreService.addScore(new Score("LightsOff", field.getPlayersName(), field.getPlayersScore(), new Date()));
                     }
                 }
             }
@@ -65,8 +67,8 @@ public class LightsOffController {
         return "lightsoff";
     }
 
-      @RequestMapping("/new")
-    public String newGame(int level,Model model) {
+    @RequestMapping("/new")
+    public String newGame(int level, Model model) {
         gameLevel = level;
         newGame();
         prepareModel(model);
@@ -92,9 +94,16 @@ public class LightsOffController {
 
     @RequestMapping("/addcomment")
     public String addComment(String comment) throws CommentException {
-        commentService.addComment(new Comment(userController.getLoggedUser(),"LightsOff",comment,new Date()));
+        commentService.addComment(new Comment(userController.getLoggedUser(), "LightsOff", comment, new Date()));
         return "redirect:/lightsoff";
     }
+
+    @RequestMapping("/addrating")
+    public String addRating(int rating) throws RatingException {
+        ratingService.setRating(new Rating(userController.getLoggedUser(), "LightsOff", rating, new Date()));
+        return "redirect:/lightsoff";
+    }
+
 
     //    Tento pristup sice nie je idealny, ale pre zaciatok je najjednoduchsi
     public String getHtmlField() {
@@ -121,8 +130,18 @@ public class LightsOffController {
         return field.getPlayersScore();
     }
 
-    public boolean checkGameState() {
-        return field.getState() == GameState.PLAYING;
+    public int getPlayersRating() throws RatingException {
+        int rating = ratingService.getRating("LightsOff", userController.getLoggedUser());
+        return rating;
+    }
+
+    public boolean isRated() throws RatingException {
+        int rating = ratingService.getRating("LightsOff", userController.getLoggedUser());
+        if (rating == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public boolean isFirstset() {

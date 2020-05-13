@@ -10,6 +10,8 @@ import java.util.Date;
                 query = "SELECT s FROM Rating s WHERE s.player=:player AND s.game=:game"),
         @NamedQuery(name = "Rating.getAverageRating",
                 query = "SELECT AVG (s.rating) FROM Rating s WHERE s.game=:game"),
+        @NamedQuery(name = "Rating.setRating",
+                query = "UPDATE Rating s SET s.rating =:rating WHERE s.player =:player and s.game =:game"),
 })
 public class Rating implements Comparable <Rating> , Serializable {
     @Id

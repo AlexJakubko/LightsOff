@@ -13,7 +13,7 @@
 <div class="container-grid">
     <nav class="navbar bg-light navbar-expand-lg navbar-light">
         <a href="/lightsoff/menu">
-            <h1 class="logo">Lights Off</h1>
+            <h1 class="logo"><img class="icon" src="images/lightsoff/lightbulb.png">Lights Off</h1>
         </a>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -43,23 +43,22 @@
                     <div class="game-action">
                         <div class="actual_score">
                             <p>
-                            Score:
+                                Score:
                                 <tr th:text="${@lightsOffController.getActualScore()}"/>
                             </p>
                         </div>
-                        <div>
-                            <form method="get" action="/lightsoff/retry">
-                                <button type="submit" class="btn btn-primary">Start again with same level</button>
-                            </form>
-                            <form method="get" action="/lightsoff/menu">
-                                <button type="submit" class="btn btn-primary">Open menu</button>
-                            </form>
-                        </div>
-                        >
                     </div>
-
                     <div class="game_field">
                         <div th:utext="${@lightsOffController.getHtmlField()}"/>
+                    </div>
+
+                    <div class="game-action-buttons">
+                        <form class="form-button" method="get" action="/lightsoff/retry">
+                            <button type="submit" class="btn btn-warning">Start again same level</button>
+                        </form>
+                        <form class="form-button" method="get" action="/lightsoff/menu">
+                            <button type="submit" class="btn btn-primary">Open menu</button>
+                        </form>
                     </div>
                 </div>
 
@@ -70,6 +69,18 @@
                             <input name="level" id="PlayersLevel" type="number" max="10" min="1" required>
                             <button type="submit" class="btn btn-success">Play</button>
                         </form>
+                        <div th:if="${@userController.isLogged() and not @lightsOffController.isRated()}">
+                            <div class="rating rating2">
+                                <a href="/lightsoff/addrating?rating=5" title="Give 5 stars">★</a>
+                                <a href="/lightsoff/addrating?rating=4" title="Give 4 stars">★</a>
+                                <a href="/lightsoff/addrating?rating=3" title="Give 3 stars">★</a>
+                                <a href="/lightsoff/addrating?rating=2" title="Give 2 stars">★</a>
+                                <a href="/lightsoff/addrating?rating=1" title="Give 1 star">★</a>
+                            </div>
+                        </div>
+                        <div th:if="${@userController.isLogged() and @lightsOffController.isRated()}">
+                            Your rate:<span th:text="${@lightsOffController.getPlayersRating()}"/>★
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,15 +104,17 @@
                     </tr>
                     </tbody>
                 </table>
-                <form method="get" action="/lightsoff/addcomment">
-                    <div>
-                        <label for="PlayersComment">Comment</label>
-                        <input name="comment" id="PlayersComment" type="text" max="50" min="1" required>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                <div th:if="${@userController.isLogged()}">
+                    <form method="get" action="/lightsoff/addcomment">
+                        <div>
+                            <label for="PlayersComment">Comment</label>
+                            <input name="comment" id="PlayersComment" type="text" max="50" min="1" required>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Add comment</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -128,5 +141,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>
