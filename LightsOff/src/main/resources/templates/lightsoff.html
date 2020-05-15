@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>LightsOff</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@500&display=swap" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"/>
     <link rel="stylesheet" href="/css/stylesheet.css"/>
+    <script type="text/javascript" src="main.js"></script>
 </head>
 <body>
 <div class="container-grid">
@@ -69,13 +69,14 @@
                             <input name="level" id="PlayersLevel" type="number" max="10" min="1" required>
                             <button type="submit" class="btn btn-success">Play</button>
                         </form>
-                        <div th:if="${@userController.isLogged() and not @lightsOffController.isRated()}">
-                            <div class="rating rating2">
-                                <a href="/lightsoff/addrating?rating=5" title="Give 5 stars">★</a>
-                                <a href="/lightsoff/addrating?rating=4" title="Give 4 stars">★</a>
-                                <a href="/lightsoff/addrating?rating=3" title="Give 3 stars">★</a>
-                                <a href="/lightsoff/addrating?rating=2" title="Give 2 stars">★</a>
-                                <a href="/lightsoff/addrating?rating=1" title="Give 1 star">★</a>
+                        <div th:if="${@userController.isLogged()}">
+                            <div class="rating2">
+                                <span class="rating-normal " title="Give 5 stars">★</span>
+                                <span class="rating-normal " title="Give 4 stars">★</span>
+                                <span class="rating-normal " title="Give 3 stars">★</span>
+                                <span class="rating-normal " title="Give 2 stars">★</span>
+                                <span class="rating-normal " title="Give 1 star">★</span>
+                                <input type="number" id="rating-value">
                             </div>
                         </div>
                         <div th:if="${@userController.isLogged() and @lightsOffController.isRated()}">

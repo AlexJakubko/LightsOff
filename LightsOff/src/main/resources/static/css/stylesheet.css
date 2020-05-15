@@ -74,7 +74,6 @@ a:hover {
     width: 40px;
 }
 
-
 .borders {
     border-right: 5px black solid;
     border-top: 5px black solid;
@@ -145,9 +144,7 @@ Rating css
     position: absolute;
 }
 
-.rating a,
-
-.rating label {
+.rating-normal{
     float: right;
     color: #aaa;
     text-decoration: none;
@@ -157,16 +154,7 @@ Rating css
     transition: color .4s;
 }
 
-.rating label:hover ~ label,
-.rating input:focus ~ label,
-.rating label:hover,
-.rating a:hover{
-    font-size: 100%;
-}
-.rating a:hover,
-.rating a:hover ~ a,
-.rating a:focus,
-.rating a:focus ~ a {
+.rating-mark{
     color: orange;
     cursor: pointer;
 }
