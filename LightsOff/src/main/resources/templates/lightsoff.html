@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/stylesheet.css"/>
+
 </head>
 <body>
 <div class="container-grid">
@@ -36,13 +37,13 @@
     </nav>
     <div class="row">
         <div class="col-md-9 col-sm-12">
-            <div class="borders">
+            <div class="borders ">
                 <div th:if="${not @lightsOffController.isFirstset()}">
                     <div class="game-action">
                         <div class="actual_score">
                             <p>
                                 Score:
-                                <tr th:text="${@lightsOffController.getActualScore()}"/>
+                                <tr th:text="${@lightsOffController.getPlayersRating()}"/>
                             </p>
                         </div>
                     </div>
@@ -62,21 +63,31 @@
 
                 <div th:if="${@lightsOffController.isFirstset()}">
                     <div class="play_menu">
+                        <div th:if="${@lightsOffController.getGameState() == @lightsOffController.getGameState().SOLVED}">
+                            Your score is :
+                            <span style="color:green" th:text="${@lightsOffController.getActualScore()}"/>
+                        </div>
                         <form method="get" action="/lightsoff/new">
                             <label for="PlayersLevel">Level</label>
                             <input name="level" id="PlayersLevel" type="number" max="10" min="1" required>
                             <button type="submit" class="btn btn-success">Play</button>
                         </form>
                         <div th:if="${@userController.isLogged()}">
+                            Your rating:
                             <div class="rating rating2">
-                                <a th:style="${@lightsOffController.getPlayersRating() == 5}? 'color:orange'" href="/lightsoff/addrating?rating=5" title="Give 5 stars">★</a>
-                                <a th:style="${@lightsOffController.getPlayersRating() >= 4} ? 'color:orange'" href="/lightsoff/addrating?rating=4" title="Give 4 stars">★</a>
-                                <a th:style="${@lightsOffController.getPlayersRating() >= 3} ? 'color:orange'" href="/lightsoff/addrating?rating=3" title="Give 3 stars">★</a>
-                                <a th:style="${@lightsOffController.getPlayersRating() >= 2} ? 'color:orange'" href="/lightsoff/addrating?rating=2" title="Give 2 stars">★</a>
-                                <a th:style="${@lightsOffController.getPlayersRating() >= 1} ? 'color:orange'" href="/lightsoff/addrating?rating=1" title="Give 1 star">★</a>
-                            </div>
+                                    <a th:style="${@lightsOffController.getPlayersRating() == 5}? 'color:orange'"
+                                       href="/lightsoff/addrating?rating=5" title="Give 5 stars">★</a>
+                                    <a th:style="${@lightsOffController.getPlayersRating() >= 4} ? 'color:orange'"
+                                       href="/lightsoff/addrating?rating=4" title="Give 4 stars">★</a>
+                                    <a th:style="${@lightsOffController.getPlayersRating() >= 3} ? 'color:orange'"
+                                       href="/lightsoff/addrating?rating=3" title="Give 3 stars">★</a>
+                                    <a th:style="${@lightsOffController.getPlayersRating() >= 2} ? 'color:orange'"
+                                       href="/lightsoff/addrating?rating=2" title="Give 2 stars">★</a>
+                                    <a th:style="${@lightsOffController.getPlayersRating() >= 1} ? 'color:orange'"
+                                       href="/lightsoff/addrating?rating=1" title="Give 1 star">★</a>
+                                </div>
                             <div>
-                                    Avg rating:<span th:text="${averageRating}"/>
+                                Avg rating:<span th:text="${averageRating}"/><span class="star">★</span>
                             </div>
                         </div>
                     </div>

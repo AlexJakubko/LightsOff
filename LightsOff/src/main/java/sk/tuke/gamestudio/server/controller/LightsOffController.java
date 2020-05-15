@@ -134,6 +134,9 @@ public class LightsOffController {
         int rating = ratingService.getRating("LightsOff", userController.getLoggedUser());
         return rating;
     }
+    public GameState getGameState(){
+        return field.getState();
+    }
 
     public boolean isRated() throws RatingException {
         int rating = ratingService.getRating("LightsOff", userController.getLoggedUser());

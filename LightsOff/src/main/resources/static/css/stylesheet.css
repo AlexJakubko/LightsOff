@@ -4,11 +4,6 @@
     margin-right: 5%;
 }
 
-a:hover {
-    text-decoration: none;
-    font-size: 120%;
-!important;
-}
 
 .logo {
     size: 20px;
@@ -82,6 +77,7 @@ a:hover {
     align-items: center !important;
     justify-content: center !important;
     display: flex !important;
+    line-height: 40px;
 }
 
 .comments-grid {
@@ -96,6 +92,7 @@ a:hover {
 }
 
 .play_menu {
+    -webkit-transition: color .4s;
     border-radius: 15px;
     border: 3px solid black;
     padding: 10px;
@@ -176,4 +173,9 @@ Rating css
 
 .rating2 a {
     float: none
+}
+
+.star{
+    font-size: 30px;
+    color: orange;
 }
