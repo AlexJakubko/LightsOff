@@ -144,7 +144,9 @@ Rating css
     position: absolute;
 }
 
-.rating-normal{
+.rating a,
+
+.rating label {
     float: right;
     color: #aaa;
     text-decoration: none;
@@ -154,7 +156,16 @@ Rating css
     transition: color .4s;
 }
 
-.rating-mark{
+.rating label:hover ~ label,
+.rating input:focus ~ label,
+.rating label:hover,
+.rating a:hover{
+    font-size: 100%;
+}
+.rating a:hover,
+.rating a:hover ~ a,
+.rating a:focus,
+.rating a:focus ~ a {
     color: orange;
     cursor: pointer;
 }

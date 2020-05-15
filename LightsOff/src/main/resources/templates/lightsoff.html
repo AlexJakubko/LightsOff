@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/stylesheet.css"/>
-    <script type="text/javascript" src="../scripts/main.js"></script>
 </head>
 <body>
 <div class="container-grid">
@@ -69,17 +68,16 @@
                             <button type="submit" class="btn btn-success">Play</button>
                         </form>
                         <div th:if="${@userController.isLogged()}">
-                            <div class="rating2">
-                                <span class="rating-normal " title="Give 5 stars">★</span>
-                                <span class="rating-normal " title="Give 4 stars">★</span>
-                                <span class="rating-normal " title="Give 3 stars">★</span>
-                                <span class="rating-normal " title="Give 2 stars">★</span>
-                                <span class="rating-normal " title="Give 1 star">★</span>
-                                <input type="number" id="rating-value">
+                            <div class="rating rating2">
+                                <a th:style="${@lightsOffController.getPlayersRating() == 5}? 'color:orange'" href="/lightsoff/addrating?rating=5" title="Give 5 stars">★</a>
+                                <a th:style="${@lightsOffController.getPlayersRating() >= 4} ? 'color:orange'" href="/lightsoff/addrating?rating=4" title="Give 4 stars">★</a>
+                                <a th:style="${@lightsOffController.getPlayersRating() >= 3} ? 'color:orange'" href="/lightsoff/addrating?rating=3" title="Give 3 stars">★</a>
+                                <a th:style="${@lightsOffController.getPlayersRating() >= 2} ? 'color:orange'" href="/lightsoff/addrating?rating=2" title="Give 2 stars">★</a>
+                                <a th:style="${@lightsOffController.getPlayersRating() >= 1} ? 'color:orange'" href="/lightsoff/addrating?rating=1" title="Give 1 star">★</a>
                             </div>
-                        </div>
-                        <div th:if="${@userController.isLogged() and @lightsOffController.isRated()}">
-                            Your rate:<span th:text="${@lightsOffController.getPlayersRating()}"/>★
+                            <div>
+                                    Avg rating:<span th:text="${averageRating}"/>
+                            </div>
                         </div>
                     </div>
                 </div>
